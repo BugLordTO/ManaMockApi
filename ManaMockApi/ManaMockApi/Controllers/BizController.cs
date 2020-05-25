@@ -17,7 +17,7 @@ namespace ManaMockApi.Controllers
         {
             return new OpeningTime
             {
-                Sunday = null,
+                Sunday = new List<Period>(),
                 Monday = new List<Period> 
                 {
                     new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
@@ -38,9 +38,9 @@ namespace ManaMockApi.Controllers
                 //24hr
                 Friday = new List<Period> 
                 {
-                    new Period { OrderFromTime = 0000, OrderThruTime = 0000 },
+                    new Period { OrderFromTime = 0000, OrderThruTime = 2400 },
                 },
-                Saturday = null,
+                Saturday = new List<Period>(),
                 TemporaryCloseThruTime = null
             };
         }
