@@ -27,6 +27,9 @@ namespace ManaMockApi
         {
             services.AddControllers();
             services.AddOpenApiDocument(); // add OpenAPI v3 document
+
+            var webConfiguration = Configuration.GetSection(nameof(WebConfiguration)).Get<WebConfiguration>();
+            services.AddSingleton(webConfiguration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
