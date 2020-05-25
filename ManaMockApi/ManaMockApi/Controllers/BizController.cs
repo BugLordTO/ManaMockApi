@@ -17,13 +17,30 @@ namespace ManaMockApi.Controllers
         {
             return new OpeningTime
             {
-                Sunday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Monday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Tuesday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Wednesday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Thursday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Friday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
-                Saturday = new List<Period> { new Period { OrderFromTime = 0000, OrderThruTime = 0000 }, },
+                Sunday = null,
+                Monday = new List<Period> 
+                {
+                    new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
+                },
+                Tuesday = new List<Period> 
+                {
+                    new Period { OrderFromTime = 0800, OrderThruTime = 1400 },
+                    new Period { OrderFromTime = 1500, OrderThruTime = 2200 },
+                },
+                Wednesday = new List<Period> 
+                {
+                    new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
+                },
+                Thursday = new List<Period> 
+                {
+                    new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
+                },
+                //24hr
+                Friday = new List<Period> 
+                {
+                    new Period { OrderFromTime = 0000, OrderThruTime = 0000 },
+                },
+                Saturday = null,
                 TemporaryCloseThruTime = null
             };
         }
