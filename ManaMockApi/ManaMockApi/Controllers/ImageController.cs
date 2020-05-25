@@ -40,8 +40,10 @@ namespace ManaMockApi.Controllers
         {
             var now = DateTimeOffset.UtcNow;
             var imageId = Guid.NewGuid().ToString();
-            var blobContainer = cloudBlobClient.GetContainerReference($"{ProductContainerName}/{imageId}");
-            var sas = blobContainer.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(ProductContainerName);
+            await cloudBlobContainer.CreateIfNotExistsAsync();
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(imageId);
+            var sas = cloudBlockBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
                 Permissions = SharedAccessBlobPermissions.Write,
                 SharedAccessStartTime = now.AddMinutes(-5),
@@ -62,31 +64,41 @@ namespace ManaMockApi.Controllers
         /// </summary>
         /// <param name="imageId"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{imageId}")]
         public async Task<IActionResult> Image(string imageId)
         {
             var now = DateTimeOffset.UtcNow;
-            var blobUrl = $"{StorageAccountBaseUrl}/{ProductContainerName}/{imageId}";
-
-            var blockBlobReference = await cloudBlobClient.GetBlobReferenceFromServerAsync(new Uri(blobUrl));
-            if (!await blockBlobReference.ExistsAsync())
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(ProductContainerName);
+            await cloudBlobContainer.CreateIfNotExistsAsync();
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(imageId);
+            if (!await cloudBlockBlob.ExistsAsync())
             {
                 return NotFound(new { message = "Image not found." });
             }
 
-            var sas = blockBlobReference.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            var sas = cloudBlockBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
                 Permissions = SharedAccessBlobPermissions.Read,
                 SharedAccessStartTime = now.AddMinutes(-5),
                 SharedAccessExpiryTime = now.AddMinutes(30),
             });
 
-            var response = await httpClient.GetAsync($"{blobUrl}{sas}");
-            var mediaType = response.Content.Headers.ContentType.MediaType;
-            using (var stream = await response.Content.ReadAsStreamAsync())
-            {
-                return File(stream, mediaType);
-            }
+            var blobUrl = $"{StorageAccountBaseUrl}/{ProductContainerName}/{imageId}{sas}";
+            return Redirect(blobUrl);
+            //var response = await httpClient.GetAsync(blobUrl);
+            //var mediaType = response.Content.Headers.ContentType.MediaType;
+            //using (var stream = await response.Content.ReadAsStreamAsync())
+            //{
+            //    return File(stream, mediaType);
+            //}
         }
+
+        //[HttpGet("asdasd")]
+        //public async Task<IActionResult> Upload(string sas)
+        //{
+        //    var cloudBlockBlob = new CloudBlockBlob(new Uri(sas));
+        //    await cloudBlockBlob.UploadFromFileAsync(@"C:\Users\Aftershock\Desktop\QrPay-Event\sc.png");
+        //    return Ok();
+        //}
     }
 }
