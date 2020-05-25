@@ -26,6 +26,7 @@ namespace ManaMockApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddOpenApiDocument(); // add OpenAPI v3 document
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +42,10 @@ namespace ManaMockApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseOpenApi(); // serve OpenAPI/Swagger documents
+            app.UseSwaggerUi3(); // serve Swagger UI
+            app.UseReDoc(); // serve ReDoc UI
 
             app.UseEndpoints(endpoints =>
             {
