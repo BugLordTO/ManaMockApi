@@ -18,25 +18,25 @@ namespace ManaMockApi.Controllers
             return new OpeningTime
             {
                 Sunday = new List<Period>(),
-                Monday = new List<Period> 
+                Monday = new List<Period>
                 {
                     new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
                 },
-                Tuesday = new List<Period> 
+                Tuesday = new List<Period>
                 {
                     new Period { OrderFromTime = 0800, OrderThruTime = 1400 },
                     new Period { OrderFromTime = 1500, OrderThruTime = 2200 },
                 },
-                Wednesday = new List<Period> 
+                Wednesday = new List<Period>
                 {
                     new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
                 },
-                Thursday = new List<Period> 
+                Thursday = new List<Period>
                 {
                     new Period { OrderFromTime = 0800, OrderThruTime = 2200 },
                 },
                 //24hr
-                Friday = new List<Period> 
+                Friday = new List<Period>
                 {
                     new Period { OrderFromTime = 0000, OrderThruTime = 2400 },
                 },
@@ -56,6 +56,19 @@ namespace ManaMockApi.Controllers
         {
 
         }
+
+        [HttpGet("openingbiz")]
+        public IEnumerable<BizAccount> GetOpeningBiz(string serviceId)
+        {
+            return new List<BizAccount>
+            {
+                new BizAccount { id ="01" , Name="บ้านมอ" },
+                new BizAccount { id ="02" , Name="Red Door" },
+                new BizAccount { id ="03" , Name="Black Door" },
+                new BizAccount { id ="04" , Name="Dior" },
+            };
+        }
+
     }
 
 }
