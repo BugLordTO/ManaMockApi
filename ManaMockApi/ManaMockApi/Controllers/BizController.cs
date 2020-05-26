@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManaMockApi.Controllers
 {
-    [Route("api/[controller]/{bizId}/service/{serviceId}/")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class BizController : ControllerBase
     {
-        [HttpGet("openingtime")]
+        [HttpGet("{bizId}/service/{serviceId}/openingtime")]
         public OpeningTime GetOpeningTime(string bizId, string serviceId)
         {
             return new OpeningTime
@@ -45,19 +45,19 @@ namespace ManaMockApi.Controllers
             };
         }
 
-        [HttpPost("openingtime")]
+        [HttpPost("{bizId}/service/{serviceId}/openingtime")]
         public void UpdateOpeningTime(string bizId, string serviceId, [FromBody] OpeningTime bizTime)
         {
 
         }
 
-        [HttpPost("temporarytime")]
+        [HttpPost("{bizId}/service/{serviceId}/temporarytime")]
         public void SetTemporaryClose(string bizId, string serviceId, DateTime TemporaryCloseThruTime)
         {
 
         }
 
-        [HttpGet("openingbiz")]
+        [HttpGet("service/{serviceId}/openingbiz")]
         public IEnumerable<BizAccount> GetOpeningBiz(string serviceId)
         {
             return new List<BizAccount>
