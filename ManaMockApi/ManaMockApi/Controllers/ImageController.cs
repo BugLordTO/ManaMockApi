@@ -34,12 +34,13 @@ namespace ManaMockApi.Controllers
         /// <param name="refid"></param>
         /// <param name="serviceId"></param>
         /// <param name="bizAccountId"></param>
+        /// <param name="imageId"></param>
         /// <returns></returns>
         [HttpGet("sas")]
-        public async Task<ActionResult<ImageBlobSaS>> GetUploadImageBlobSaS(string type, string refid, string serviceId, string bizAccountId)
+        public async Task<ActionResult<ImageBlobSaS>> GetUploadImageBlobSaS(string type, string refid, string serviceId, string bizAccountId, string? imageId)
         {
             var now = DateTimeOffset.UtcNow;
-            var imageId = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(imageId)) imageId = Guid.NewGuid().ToString();
             var cloudBlobContainer = cloudBlobClient.GetContainerReference(ProductContainerName);
             await cloudBlobContainer.CreateIfNotExistsAsync();
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(imageId);
